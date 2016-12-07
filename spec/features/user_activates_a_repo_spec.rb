@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.feature "User activates a repo", :js do
   scenario "user upgrades from free tier" do
     callback_endpoint = "http://#{ENV['HOST']}/builds"
-    user = create(:user, :github, :stripe)
+    user = create(:user, :with_github_scopes, :stripe)
     membership = create(:membership, :admin, :private, user: user)
     current_plan = user.current_tier.id
     upgraded_plan = user.next_tier.id
@@ -23,7 +23,7 @@ RSpec.feature "User activates a repo", :js do
 
   scenario "user upgrades within a tier" do
     callback_endpoint = "http://#{ENV['HOST']}/builds"
-    user = create(:user, :github, :stripe)
+    user = create(:user, :with_github_scopes, :stripe)
     membership = create(:membership, :admin, :private, user: user)
     create(:subscription, :active, user: user)
     current_plan = user.current_tier.id
